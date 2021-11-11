@@ -1,0 +1,7 @@
+{
+  "name": "get_goals",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
