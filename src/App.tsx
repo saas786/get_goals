@@ -1,10 +1,11 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet } from '@ionic/react';
+import { IonApp,IonRouterOutlet, IonContent, IonCard, IonCardHeader, IonCardTitle, IonItem, IonList, IonLabel, IonInput, IonButton } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
+import '@ionic/core/css/ionic.bundle.css';
 
 /* Basic CSS for apps built with Ionic */
 import '@ionic/react/css/normalize.css';
