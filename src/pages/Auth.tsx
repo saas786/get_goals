@@ -10,6 +10,7 @@ import {
   IonCol,
   IonTextarea,
 } from "@ionic/react";
+<<<<<<< HEAD
 import { TextareaChangeEventDetail } from "@ionic/core";
 import React, { MouseEventHandler, useEffect, useState } from "react";
 import "@ionic/core/css/core.css";
@@ -27,3 +28,26 @@ const Auth: React.FC = () => {
 };
 
 export default Auth;
+=======
+
+import AuthModal from "components/AuthModal";
+
+const Auth: React.FC = () => {
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Main App</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+
+      <IonContent fullscreen>
+        {" "}
+        <AuthModal />
+      </IonContent>
+    </IonPage>
+  );
+};
+
+export default Auth;
+>>>>>>> develop

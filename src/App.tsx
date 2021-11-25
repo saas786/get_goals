@@ -22,6 +22,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import Auth from 'pages/Auth';
 
 const App: React.FC = () => (
   <IonApp>
@@ -29,6 +30,7 @@ const App: React.FC = () => (
       <IonRouterOutlet>
         <Route exact path="/home">
           <Home />
+          <Auth />
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />

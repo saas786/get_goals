@@ -11,16 +11,14 @@ import {
   IonTextarea,
 } from "@ionic/react";
 import { TextareaChangeEventDetail } from "@ionic/core";
-import React, {
-  MouseEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
+
 import "@ionic/core/css/core.css";
 import "@ionic/core/css/ionic.bundle.css";
-import ExploreContainer from "components/ExploreContainer";
 import "./Home.css";
+
 import List from "components/List";
+import AuthModal from "components/AuthModal";
 
 const getLocalStorage = () => {
   let list = localStorage.getItem("list");
@@ -126,7 +124,7 @@ const Home: React.FC = () => {
 
           <List items={list} removeItem={removeItem} editItem={editItem} />
         </IonGrid>
-        <ExploreContainer />
+        {/* <AuthModal /> */}
       </IonContent>
     </IonPage>
   );
