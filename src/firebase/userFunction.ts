@@ -26,11 +26,14 @@ export const registerUser = async (
           userPassword: userPassword,
           userCredential: user,
         });
+        return true;
+        
       }
     })
     .catch((error: { code: any; message: any }) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      return errorMessage;
     });
 };
 
@@ -38,10 +41,13 @@ export const loginUser = async (userEmail: string, userPassword: string) => {
   await signInWithEmailAndPassword(auth, userEmail, userPassword)
     .then((userCredential: { user: any }) => {
       const user = userCredential.user;
+      console.log(user);
+      return user;
     })
     .catch((error: { code: any; message: any }) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      return errorMessage;
     });
 };
 
