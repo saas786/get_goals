@@ -18,7 +18,6 @@ import "@ionic/core/css/ionic.bundle.css";
 import "./Home.css";
 
 import List from "components/List";
-import AuthModal from "components/AuthModal";
 
 const getLocalStorage = () => {
   let list = localStorage.getItem("list");

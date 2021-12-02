@@ -13,6 +13,7 @@ import {
 
 import AuthModal from "components/AuthModal";
 
+
 const Auth: React.FC = () => {
   return (
     <IonPage>

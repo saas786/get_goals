@@ -9,14 +9,73 @@ import {
   IonInput,
   IonLabel,
 } from "@ionic/react";
+import { registerUser, loginUser, logoutUser } from "firebase/userFunction";
+import { checkLength } from "components/CheckLength";
 
 export const RegisterModal: React.FC = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const [name, setName] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const register = async () => {
+    if (password === "" || email === "" || name === "") {
+      //SET ERROR TOAST
+      console.log("DO NOT LEAVE ALL BLANK");
+      return false;
+    } else {
+      const passLength = checkLength(password);
+
+      if (passLength === true) {
+        const registered = registerUser(name, email, password);
+        console.log(registered);
+
+        if (register !== null) {
+          //SET SUCESSFULL TOAST
+          console.log("REGISTER SUCESSFULL");
+          return true;
+        }
+      } else {
+        //SET ERROR TOAST
+        console.log("PASSWORD NEED TO BE MORE THAN 6 CHARACTERS");
+        return false;
+      }
+    }
+  };
+
+  const login = async () => {
+    if (password === "" || email === "") {
+      //set error toast
+      console.log("KOSONG!!!!");
+      return false;
+    } else {
+      const login = await loginUser(email, password);
+      console.log(login);
+
+      if (login !== null) {
+        //set sucessfull toast
+        return true;
+      }
+    }
+  };
+
+  async function registerClick() {
+    const registerResult = await register();
+    console.log(registerResult);
+    if (registerResult == true) {
+      setShowRegisterModal(false);
+    }
+  }
+
+  async function loginClick() {
+    const loginResult = await login();
+    console.log(loginResult);
+    if (loginResult == true) {
+      setShowLoginModal(false);
+    }
+  }
 
   return (
     <IonContent>
@@ -26,40 +85,57 @@ export const RegisterModal: React.FC = () => {
         <IonList>
           <IonItem>
             <IonLabel position="floating">Name</IonLabel>
-            <IonInput value={name}></IonInput>
+            <IonInput
+              onIonChange={(e) => setName(e.detail.value!)}
+              value={name}
+            ></IonInput>
           </IonItem>
 
           <IonItem>
             <IonLabel position="floating">Email</IonLabel>
-            <IonInput value={email}></IonInput>
+            <IonInput
+              onIonChange={(e) => setEmail(e.detail.value!)}
+              value={email}
+            ></IonInput>
           </IonItem>
 
           <IonItem>
             <IonLabel position="floating">Password</IonLabel>
-            <IonInput type="password" value={password}></IonInput>
+            <IonInput
+              onIonChange={(e) => setPassword(e.detail.value!)}
+              type="password"
+              value={password}
+            ></IonInput>
           </IonItem>
         </IonList>
-        <IonButton onClick={() => setShowRegisterModal(false)}>
+        <IonButton expand="block" size="large" onClick={registerClick}>
           Register
         </IonButton>
       </IonModal>
 
       <IonModal isOpen={showLoginModal}>
         <p>Login</p>
-        
+
         <IonList>
           <IonItem>
             <IonLabel position="floating">Email</IonLabel>
-            <IonInput value={email}></IonInput>
+            <IonInput
+              onIonChange={(e) => setEmail(e.detail.value!)}
+              value={email}
+            ></IonInput>
           </IonItem>
 
           <IonItem>
             <IonLabel position="floating">Password</IonLabel>
-            <IonInput type="password" value={password}></IonInput>
+            <IonInput
+              onIonChange={(e) => setPassword(e.detail.value!)}
+              type="password"
+              value={password}
+            ></IonInput>
           </IonItem>
         </IonList>
 
-        <IonButton onClick={() => setShowLoginModal(false)}>Login</IonButton>
+        <IonButton onClick={loginClick}>Login</IonButton>
       </IonModal>
 
       <IonButton onClick={() => setShowRegisterModal(true)}>Register</IonButton>
