@@ -1,3 +1,4 @@
+import { getDatabase } from "@firebase/database";
 import { initializeApp } from "firebase/app";
 import "firebase/compat/auth";
 

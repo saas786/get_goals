@@ -17,7 +17,7 @@ import "@ionic/core/css/core.css";
 import "@ionic/core/css/ionic.bundle.css";
 import "./Home.css";
 
-import List from "components/List";
+import List from "components/task/List";
 
 const getLocalStorage = () => {
   let list = localStorage.getItem("list");
