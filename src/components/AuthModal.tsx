@@ -9,8 +9,9 @@ import {
   IonInput,
   IonLabel,
 } from "@ionic/react";
-import { registerUser, loginUser, logoutUser } from "firebase/userFunction";
+import { registerUser, loginUser, checkLoginUser, logoutUser } from "firebase/userFunction";
 import { checkLength } from "components/CheckLength";
+import { userInfo } from "os";
 
 export const RegisterModal: React.FC = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
@@ -61,6 +62,16 @@ export const RegisterModal: React.FC = () => {
     }
   };
 
+  const check = async () => {
+    const user = await checkLoginUser();
+    console.log(user);
+    return user;
+  }
+
+  const logout = async () => {
+    const user = await logoutUser();
+  }
+
   async function registerClick() {
     const registerResult = await register();
     console.log(registerResult);
@@ -75,6 +86,18 @@ export const RegisterModal: React.FC = () => {
     if (loginResult == true) {
       setShowLoginModal(false);
     }
+  }
+
+  async function checkUserClick() {
+    const user = await check();
+    console.log (user);
+    return true;
+  }
+
+  async function logoutClick() {
+    const user = await logout();
+    console.log (user);
+    return true;
   }
 
   return (
@@ -140,6 +163,8 @@ export const RegisterModal: React.FC = () => {
 
       <IonButton onClick={() => setShowRegisterModal(true)}>Register</IonButton>
       <IonButton onClick={() => setShowLoginModal(true)}>Login</IonButton>
+      <IonButton onClick={logoutClick}>Log Out</IonButton>
+      <IonButton onClick={checkUserClick}>Who Am I?</IonButton>
     </IonContent>
   );
 };

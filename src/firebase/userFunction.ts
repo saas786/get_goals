@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
@@ -10,6 +11,8 @@ import { firebase } from "./firebaseConfig";
 export const auth = getAuth(firebase);
 export const database = getDatabase();
 
+
+//Register
 export const registerUser = async (
   name: string,
   userEmail: string,
@@ -37,6 +40,7 @@ export const registerUser = async (
     });
 };
 
+//Login
 export const loginUser = async (userEmail: string, userPassword: string) => {
   await signInWithEmailAndPassword(auth, userEmail, userPassword)
     .then((userCredential: { user: any }) => {
@@ -51,8 +55,26 @@ export const loginUser = async (userEmail: string, userPassword: string) => {
     });
 };
 
+//Logout
 export const logoutUser = async () => {
     await signOut(auth).then(() => {
         
     }).catch((error) => {})
+}
+
+//Check Sign In User
+export const checkLoginUser = async () => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user?.uid;
+      console.log(uid);
+      console.log(user);
+      return uid;
+    } else {
+      console.log(user);
+      return;
+
+    }
+
+  })
 }
