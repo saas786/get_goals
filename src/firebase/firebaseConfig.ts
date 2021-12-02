@@ -1,15 +1,16 @@
+import { getDatabase } from "@firebase/database";
 import { initializeApp } from "firebase/app";
 import "firebase/compat/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBR26h7PnpydyPrATd0PlwnEjIcSDe0m-c",
-  authDomain: "get-goals-09031998.firebaseapp.com",
-  databaseURL: "https://get-goals-09031998.firebaseio.com",
-  projectId: "get-goals-09031998",
-  storageBucket: "get-goals-09031998.appspot.com",
-  messagingSenderId: "521644495951",
-  appId: "1:521644495951:web:e239d3066c6b235ac4c63a",
-  measurementId: "G-KN1MDQD4B4",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 export const firebase = initializeApp(firebaseConfig);

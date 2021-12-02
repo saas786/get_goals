@@ -11,7 +11,7 @@ import {
   IonTextarea,
 } from "@ionic/react";
 
-import AuthModal from "components/AuthModal";
+import AuthModal from "components/auth/AuthModal";
 
 
 const Auth: React.FC = () => {

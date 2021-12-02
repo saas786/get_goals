@@ -4,13 +4,13 @@ import {
   IonButton,
   IonContent,
   IonList,
-  IonItemDivider,
   IonItem,
   IonInput,
   IonLabel,
 } from "@ionic/react";
-import { registerUser, loginUser, logoutUser } from "firebase/userFunction";
+import { registerUser, loginUser, checkLoginUser, logoutUser } from "firebase/userFunction";
 import { checkLength } from "components/CheckLength";
+import { presentToast } from "components/Toast";
 
 export const RegisterModal: React.FC = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
@@ -23,23 +23,20 @@ export const RegisterModal: React.FC = () => {
   const register = async () => {
     if (password === "" || email === "" || name === "") {
       //SET ERROR TOAST
-      console.log("DO NOT LEAVE ALL BLANK");
+      presentToast("DO NOT LEAVE ALL BLANK");
       return false;
     } else {
       const passLength = checkLength(password);
 
       if (passLength === true) {
-        const registered = registerUser(name, email, password);
-        console.log(registered);
+        const registered = await registerUser(name, email, password);
 
-        if (register !== null) {
-          //SET SUCESSFULL TOAST
+        if (registered !== null) {
           console.log("REGISTER SUCESSFULL");
           return true;
         }
       } else {
-        //SET ERROR TOAST
-        console.log("PASSWORD NEED TO BE MORE THAN 6 CHARACTERS");
+        presentToast("PASSWORD NEED TO BE MORE THAN 6 CHARACTERS");
         return false;
       }
     }
@@ -52,7 +49,6 @@ export const RegisterModal: React.FC = () => {
       return false;
     } else {
       const login = await loginUser(email, password);
-      console.log(login);
 
       if (login !== null) {
         //set sucessfull toast
@@ -61,9 +57,17 @@ export const RegisterModal: React.FC = () => {
     }
   };
 
+  const check = async () => {
+    const user = await checkLoginUser();
+    return user;
+  }
+
+  const logout = async () => {
+    const user = await logoutUser();
+  }
+
   async function registerClick() {
     const registerResult = await register();
-    console.log(registerResult);
     if (registerResult == true) {
       setShowRegisterModal(false);
     }
@@ -71,10 +75,19 @@ export const RegisterModal: React.FC = () => {
 
   async function loginClick() {
     const loginResult = await login();
-    console.log(loginResult);
     if (loginResult == true) {
       setShowLoginModal(false);
     }
+  }
+
+  async function checkUserClick() {
+    const user = await check();
+    return true;
+  }
+
+  async function logoutClick() {
+    const user = await logout();
+    return true;
   }
 
   return (
@@ -140,6 +153,8 @@ export const RegisterModal: React.FC = () => {
 
       <IonButton onClick={() => setShowRegisterModal(true)}>Register</IonButton>
       <IonButton onClick={() => setShowLoginModal(true)}>Login</IonButton>
+      <IonButton onClick={logoutClick}>Log Out</IonButton>
+      <IonButton onClick={checkUserClick}>Who Am I?</IonButton>
     </IonContent>
   );
 };
