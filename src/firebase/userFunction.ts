@@ -7,10 +7,10 @@ import {
 } from "firebase/auth";
 import { getDatabase, ref, set, onValue } from "firebase/database";
 import { presentToast } from "components/Toast";
-import { firebase } from "./firebaseConfig";
+import { firebase, database } from "./firebaseConfig";
+import { useState } from "react";
 
-export const auth = getAuth(firebase);
-export const database = getDatabase(firebase);
+export const auth = getAuth();
 
 //Register
 export const registerUser = async (
@@ -64,19 +64,28 @@ export const logoutUser = async () => {
     });
 };
 
-//Check Sign In User
+interface userUid {
+  uid:string
+}
+
+// Check Sign In User
 export const checkLoginUser = async () => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user?.uid;
       const email = user?.email;
-      if (email) {
-        presentToast(email);
-      }
-      return uid;
+      presentToast(uid);
+      
     } else {
       presentToast("Not Found");
       return;
     }
   });
 };
+
+export const getCurrentUser = () => {
+  const user = auth.currentUser;
+  if (user){
+    presentToast(user.uid?? "Hello");
+  }
+}
