@@ -25,7 +25,7 @@ export const registerUser = async (
         presentToast("Email " + user.email + " Sucessfully Registered");
       }
 
-      set(ref(database, "users/" + user.uid), {
+      set(ref(database, "users/" + user.uid + "/profile/"), {
         userUid: user.uid,
         userName: name,
         userEmail: userEmail,

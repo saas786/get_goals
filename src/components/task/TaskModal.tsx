@@ -30,7 +30,9 @@ export const TaskModal: React.FC = () => {
     const userUid = currentUserUid.currentUser;
     const formattedDate = Moment(selectedDate).format("DD-MM-YYYY");
     const formattedTime = Moment(selectedTime).format("HH:mm");
-    set(ref(database, "users/" + userUid + "/task/"), {
+    const taskId = name.concat("-" + formattedDate + "-" +Math.floor((Math.random() * 100) + 1) );
+
+    set(ref(database, "users/" + userUid + "/task/" + taskId), {
       name: name,
       category: category,
       date: formattedDate,
