@@ -8,7 +8,12 @@ import {
   IonInput,
   IonLabel,
 } from "@ionic/react";
-import { registerUser, loginUser, checkLoginUser, logoutUser } from "firebase/userFunction";
+import {
+  registerUser,
+  loginUser,
+  checkLoginUser,
+  logoutUser,
+} from "firebase/userFunction";
 import { checkLength } from "components/CheckLength";
 import { presentToast } from "components/Toast";
 
@@ -60,11 +65,11 @@ export const RegisterModal: React.FC = () => {
   const check = async () => {
     const user = await checkLoginUser();
     return user;
-  }
+  };
 
   const logout = async () => {
     const user = await logoutUser();
-  }
+  };
 
   async function registerClick() {
     const registerResult = await register();

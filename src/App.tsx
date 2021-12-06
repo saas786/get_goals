@@ -16,7 +16,7 @@ import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
 import Auth from "pages/Auth";
 import Task from "pages/Task";
-import { Context } from "components/Context";
+import { UserContext} from "components/providers/UserContext";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -39,7 +39,7 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 
 const App: React.FC = () => (
-  <Context>
+  <UserContext>
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
@@ -58,7 +58,7 @@ const App: React.FC = () => (
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
-  </Context>
+  </UserContext>
 );
 
 export default App;

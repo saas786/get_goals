@@ -6,14 +6,12 @@ export const AuthContext = createContext({
   currentUser: null,
 });
 
-export const Context = ({ children }: any) => {
+export const UserContext = ({ children }: any) => {
   const [user, setUser] = useState<any>(null);
-  const [busy, setBusy] = useState(true);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setUser(user?.uid);
-      setBusy(false);
     });
   }, []);
 
@@ -23,5 +21,3 @@ export const Context = ({ children }: any) => {
     </AuthContext.Provider>
   );
 };
-
-
