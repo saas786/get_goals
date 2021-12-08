@@ -16,54 +16,56 @@ import {
 } from "@ionic/react";
 import { AuthContext } from "components/providers/UserContext";
 import { presentToast } from "components/Toast";
-import { child, get, ref } from "firebase/database";
+import { child, get, onValue, ref } from "firebase/database";
 import { database } from "firebase/firebaseConfig";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { nanoid } from "nanoid";
+import { TaskCollection, TaskEntry } from "components/types/task";
+import { readAllTask, readTaskRef } from "firebase/taskFunction";
 
 
-  const dbRef = ref(database);
+function TaskCard() {
   const currentUserUid = useContext(AuthContext);
-  let tasks = new Array<Object>();
+  const uid = String(currentUserUid.currentUser);
+  const [tasks, setTask] = useState<TaskCollection>(Object);
+  const currentUserTaskRef = readTaskRef(uid);
 
- function TaskCard(props: any){
-  const task = props.task;
-  const cardOfTask = tasks.map((task: any) => {
-    <IonCard>
-      <IonCardHeader>
-        <IonCardSubtitle>
-          {" "}
-          {task.date} {task.time}{" "}
-        </IonCardSubtitle>
-        <IonCardTitle onClick={present}> {task.name}</IonCardTitle>
-      </IonCardHeader>
 
-      <IonCardContent>{task.Category}</IonCardContent>
+  // will run once at the beginning to turn on listener to RTDB
+  useEffect(() => {
+    onValue(currentUserTaskRef, (snapshot) => {
+      // type-casting with as
+      setTask(snapshot.val() as TaskCollection);
+    });
+  }, []);
 
-      <IonButton color="success">Completed</IonButton>
-      <IonButton color="danger">Delete</IonButton>
-    </IonCard>;
-  });
+  return (
+    <IonContent>
+      {Object.keys(tasks).map((taskKey: any) => (
+        <IonCard key={taskKey}>
+          <IonCardHeader>
+            <IonCardSubtitle>{tasks[taskKey].time}</IonCardSubtitle>
+          </IonCardHeader>
+        </IonCard>
+      ))}
+    </IonContent>
+  );
 
-  return cardOfTask;
-  };
+  // const task = props.task;
+  // const cardOfTask = tasks.map((task: any) => {
+  // <IonCard>
+  //   <IonCardHeader>
+  //     <IonCardSubtitle>
+  //       {" "}
+  //       {task.date} {task.time}{" "}
+  //     </IonCardSubtitle>
+  //     <IonCardTitle onClick={present}> {task.name}</IonCardTitle>
+  //   </IonCardHeader>
+  //   <IonCardContent>{task.Category}</IonCardContent>
+  //   <IonButton color="success">Completed</IonButton>
+  //   <IonButton color="danger">Delete</IonButton>
+  // </IonCard>;
+  // });
+}
 
-  const GetTask = (item: object) => {
-    get(child(dbRef, `users/` + currentUserUid.currentUser + `/task/`))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        tasks = snapshot.val();
-        return tasks;
-      } else {
-        console.log("empty");
-      }
-    }) .catch((error) => {
-      console.log(error);
-    })
-    
-  }
-
-  const present = () => {
-    presentToast("CLICKED");
-  };
-
-  export default TaskCard;
+export default TaskCard;

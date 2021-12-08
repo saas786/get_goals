@@ -10,7 +10,7 @@ import {
   IonCol,
   IonTextarea,
 } from "@ionic/react";
-import GetAllTask from "components/task/TaskCard";
+import TaskCard from "components/task/TaskCard";
 
 import TaskModal from "components/task/TaskModal";
 
@@ -24,7 +24,7 @@ const Task: React.FC = () => {
       </IonHeader>
 
       <IonContent >
-        {/* <GetAllTask /> */}
+        <TaskCard />
         <TaskModal />
       </IonContent>
       

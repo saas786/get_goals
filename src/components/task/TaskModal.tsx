@@ -12,13 +12,10 @@ import {
 } from "@ionic/react";
 import { useState, useContext } from "react";
 import { database } from "firebase/firebaseConfig";
-import { getCurrentUser } from "firebase/userFunction";
 import { AuthContext, UserContext } from "components/providers/UserContext";
 import { ref, child, get, DataSnapshot, set } from "@firebase/database";
-import { async } from "@firebase/util";
-import { userInfo } from "os";
-import Moment from "moment";
 import { presentToast } from "components/Toast";
+import { nanoid } from "nanoid";
 
 export const TaskModal: React.FC = () => {
   const [showTaskModal, setShowTaskModal] = useState(false);
@@ -30,7 +27,6 @@ export const TaskModal: React.FC = () => {
 
   const CreateTask = async () => {
     if (
-      selectedDate === "" ||
       selectedTime === "" ||
       name === "" ||
       category === ""
@@ -38,17 +34,12 @@ export const TaskModal: React.FC = () => {
       presentToast(" All Field Required ");
     } else {
       const userUid = currentUserUid.currentUser;
-      const formattedDate = Moment(selectedDate).format("DD-MM-YYYY");
-      const formattedTime = Moment(selectedTime).format("HH:mm");
-      const taskId = name.concat(
-        "-" + formattedDate + "-" + Math.floor(Math.random() * 900 + 1)
-      );
+      const taskId = nanoid()
 
       set(ref(database, "users/" + userUid + "/task/" + taskId), {
         name: name,
         category: category,
-        date: formattedDate,
-        time: formattedTime,
+        time: selectedTime,
       });
 
       return true;
@@ -89,22 +80,9 @@ export const TaskModal: React.FC = () => {
         </IonItem>
 
         <IonItem>
-          <IonLabel position="floating">Select Date</IonLabel>
-          <IonDatetime
-            displayFormat="DD/MM/YYYY"
-            min="1994-03-14"
-            max="2222-12-09"
-            value={selectedDate}
-            onIonChange={(e) => setSelectedDate(e.detail.value!)}
-          ></IonDatetime>
-        </IonItem>
-
-        <IonItem>
           <IonLabel position="floating">Select Time</IonLabel>
           <IonDatetime
-            displayFormat="HH:mm"
-            min="00:00"
-            max="23:59"
+            displayFormat="DD/MM/YYYY HH:mm"
             value={selectedTime}
             onIonChange={(e) => setSelectedTime(e.detail.value!)}
           ></IonDatetime>
