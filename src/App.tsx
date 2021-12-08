@@ -12,11 +12,17 @@ import {
   IonInput,
   IonButton,
 } from "@ionic/react";
+import {
+  FirebaseAppProvider,
+  DatabaseProvider,
+  AuthProvider,
+  useFirebaseApp,
+} from "reactfire";
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
 import Auth from "pages/Auth";
 import Task from "pages/Task";
-import { UserContext} from "components/providers/UserContext";
+import { UserContext } from "components/providers/UserContext";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -37,28 +43,31 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import { firebaseConfig } from "firebase/firebaseConfig";
 
 const App: React.FC = () => (
-  <UserContext>
-    <IonApp>
-      <IonReactRouter>
-        <IonRouterOutlet>
-          <Route exact path="/home">
-            <Home />
-          </Route>
-          <Route exact path="/auth">
-            <Auth />
-          </Route>
-          <Route exact path="/task">
-            <Task />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-        </IonRouterOutlet>
-      </IonReactRouter>
-    </IonApp>
-  </UserContext>
+  <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+    <UserContext>
+      <IonApp>
+        <IonReactRouter>
+          <IonRouterOutlet>
+            <Route exact path="/home">
+              <Home />
+            </Route>
+            <Route exact path="/auth">
+              <Auth />
+            </Route>
+            <Route exact path="/task">
+              <Task />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
+          </IonRouterOutlet>
+        </IonReactRouter>
+      </IonApp>
+    </UserContext>
+  </FirebaseAppProvider>
 );
 
 export default App;

@@ -13,9 +13,11 @@ import {
 import { useState, useContext } from "react";
 import { database } from "firebase/firebaseConfig";
 import { AuthContext, UserContext } from "components/providers/UserContext";
-import { ref, child, get, DataSnapshot, set } from "@firebase/database";
+import { ref, child, get, DataSnapshot, set, query } from "@firebase/database";
 import { presentToast } from "components/Toast";
 import { nanoid } from "nanoid";
+import { readTaskRef } from "firebase/taskFunction";
+import { useDatabaseListData, useDatabaseObjectData } from "reactfire";
 
 export const TaskModal: React.FC = () => {
   const [showTaskModal, setShowTaskModal] = useState(false);
@@ -25,18 +27,31 @@ export const TaskModal: React.FC = () => {
   const [category, setCategory] = useState<string>("");
   const currentUserUid = useContext(AuthContext);
 
+
+
+  // 
+  // const uid = currentUserUid.currentUser;
+  // const currentUserTaskRef = readTaskRef(String(uid));
+  // const { status, data: taskList} = useDatabaseListData(query(currentUserTaskRef), {
+    
+  // })
+
+
+  // 
+
   const CreateTask = async () => {
     if (
       selectedTime === "" ||
       name === "" ||
       category === ""
     ) {
+      // console.log(taskList);
       presentToast(" All Field Required ");
     } else {
       const userUid = currentUserUid.currentUser;
       const taskId = nanoid()
 
-      set(ref(database, "users/" + userUid + "/task/" + taskId), {
+      set(ref(database, "users/" + userUid + "/tasks/" + taskId), {
         name: name,
         category: category,
         time: selectedTime,

@@ -23,11 +23,10 @@ const Task: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent >
+      <IonContent>
         <TaskCard />
         <TaskModal />
       </IonContent>
-      
     </IonPage>
   );
 };
