@@ -5,10 +5,9 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { getDatabase, ref, set, onValue } from "firebase/database";
+import { ref, set } from "firebase/database";
 import { presentToast } from "components/Toast";
-import { firebase, database } from "./firebaseConfig";
-import { useState } from "react";
+import { database } from "./firebaseConfig";
 
 export const auth = getAuth();
 
@@ -65,7 +64,7 @@ export const logoutUser = async () => {
 };
 
 interface userUid {
-  uid:string
+  uid: string;
 }
 
 // Check Sign In User
@@ -75,7 +74,6 @@ export const checkLoginUser = async () => {
       const uid = user?.uid;
       const email = user?.email;
       presentToast(uid);
-      
     } else {
       presentToast("Not Found");
       return;
@@ -85,7 +83,7 @@ export const checkLoginUser = async () => {
 
 export const getCurrentUser = () => {
   const user = auth.currentUser;
-  if (user){
-    presentToast(user.uid?? "Hello");
+  if (user) {
+    presentToast(user.uid ?? "Hello");
   }
-}
+};
