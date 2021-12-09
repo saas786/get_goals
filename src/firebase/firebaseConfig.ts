@@ -1,8 +1,9 @@
 import { getDatabase } from "@firebase/database";
 import { initializeApp } from "firebase/app";
 import "firebase/compat/auth";
+import { ref } from "firebase/database";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
@@ -14,3 +15,5 @@ const firebaseConfig = {
 };
 
 export const firebase = initializeApp(firebaseConfig);
+export const database = getDatabase(firebase);
+export const dbRef = ref(database)

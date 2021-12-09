@@ -5,12 +5,11 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { getDatabase, ref, set, onValue } from "firebase/database";
+import { ref, set } from "firebase/database";
 import { presentToast } from "components/Toast";
-import { firebase } from "./firebaseConfig";
+import { database } from "./firebaseConfig";
 
-export const auth = getAuth(firebase);
-export const database = getDatabase(firebase);
+export const auth = getAuth();
 
 //Register
 export const registerUser = async (
@@ -25,7 +24,7 @@ export const registerUser = async (
         presentToast("Email " + user.email + " Sucessfully Registered");
       }
 
-      set(ref(database, "users/" + user.uid), {
+      set(ref(database, "users/" + user.uid + "/profile/"), {
         userUid: user.uid,
         userName: name,
         userEmail: userEmail,
@@ -64,19 +63,27 @@ export const logoutUser = async () => {
     });
 };
 
-//Check Sign In User
+interface userUid {
+  uid: string;
+}
+
+// Check Sign In User
 export const checkLoginUser = async () => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user?.uid;
       const email = user?.email;
-      if (email) {
-        presentToast(email);
-      }
-      return uid;
+      presentToast(uid);
     } else {
       presentToast("Not Found");
       return;
     }
   });
+};
+
+export const getCurrentUser = () => {
+  const user = auth.currentUser;
+  if (user) {
+    presentToast(user.uid ?? "Hello");
+  }
 };
