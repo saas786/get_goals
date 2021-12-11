@@ -49,7 +49,7 @@ export const TaskModal: React.FC = () => {
   }
 
   return (
-    <IonContent>
+    <IonContent>    
       <IonModal isOpen={showTaskModal}>
         <p> Create Task </p>
         <IonItem>
@@ -84,10 +84,12 @@ export const TaskModal: React.FC = () => {
 
         <IonItem>
           <IonButton onClick={taskModalClick}>Create Task</IonButton>
+          <IonButton onClick={() => setShowTaskModal(false)}>Close</IonButton>
         </IonItem>
       </IonModal>
 
       <IonButton onClick={() => setShowTaskModal(true)}>Create Task</IonButton>
+     
     </IonContent>
   );
 };

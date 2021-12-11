@@ -126,9 +126,14 @@ export const RegisterModal: React.FC = () => {
             ></IonInput>
           </IonItem>
         </IonList>
-        <IonButton expand="block" size="large" onClick={registerClick}>
-          Register
-        </IonButton>
+        <IonList>
+          <IonButton expand="block" onClick={registerClick}>
+            Register
+          </IonButton>
+          <IonButton expand="block" onClick={() => setShowRegisterModal(false)}>
+            Cancel
+          </IonButton>
+        </IonList>
       </IonModal>
 
       <IonModal isOpen={showLoginModal}>
@@ -153,7 +158,10 @@ export const RegisterModal: React.FC = () => {
           </IonItem>
         </IonList>
 
-        <IonButton onClick={loginClick}>Login</IonButton>
+        <IonList>
+          <IonButton expand="block" onClick={loginClick}>Login</IonButton>
+          <IonButton expand="block" onClick={() => setShowLoginModal(false)}>Cancel</IonButton>
+        </IonList>
       </IonModal>
 
       <IonButton onClick={() => setShowRegisterModal(true)}>Register</IonButton>
