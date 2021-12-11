@@ -28,6 +28,8 @@ export const registerUser = async (
         userUid: user.uid,
         userName: name,
         userEmail: userEmail,
+        currentPoint: 0,
+        totalPoint: 0
       });
     })
     .catch((error) => {

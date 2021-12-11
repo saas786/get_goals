@@ -14,7 +14,7 @@ import {
   checkLoginUser,
   logoutUser,
 } from "firebase/userFunction";
-import { checkLength } from "components/CheckLength";
+import { checkLength } from "utils/CheckLength";
 import { presentToast } from "components/Toast";
 
 export const RegisterModal: React.FC = () => {

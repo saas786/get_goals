@@ -4,4 +4,5 @@ import { firebase } from "./firebaseConfig"
 const db = getDatabase(firebase)
 
 export const readUserRef = (userId: string) => ref(db, `users/` + userId + `/profile`)
-export const readUserNameRef = (userId: string) => ref(db, `users/` + userId + `/profile/userName`)
+export const readAllUserRef = () => ref(db, `users`)
+// export const readUserNameRef = (userId: string) => ref(db, `users/` + userId + `/profile/userName`)
