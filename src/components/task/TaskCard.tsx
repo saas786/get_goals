@@ -64,7 +64,7 @@ function TaskCard() {
 
   const removeTask = (key: string) => () => {
     remove(ref(database, `users/` + uid + "/tasks/" + key));
-    
+
     presentToast("Task Removed");
   };
 

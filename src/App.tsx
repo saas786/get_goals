@@ -2,21 +2,9 @@ import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
   IonRouterOutlet,
-  IonContent,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonItem,
-  IonList,
-  IonLabel,
-  IonInput,
-  IonButton,
 } from "@ionic/react";
 import {
   FirebaseAppProvider,
-  DatabaseProvider,
-  AuthProvider,
-  useFirebaseApp,
 } from "reactfire";
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
@@ -44,6 +32,7 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 import { firebaseConfig } from "firebase/firebaseConfig";
+import Leaderboard from "pages/Leaderboard";
 
 const App: React.FC = () => (
   <FirebaseAppProvider firebaseConfig={firebaseConfig}>
@@ -62,6 +51,9 @@ const App: React.FC = () => (
             </Route>
             <Route exact path="/">
               <Redirect to="/home" />
+            </Route>
+            <Route exact path="/leaderboard">
+              <Leaderboard />
             </Route>
           </IonRouterOutlet>
         </IonReactRouter>

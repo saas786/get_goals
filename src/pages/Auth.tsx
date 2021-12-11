@@ -3,12 +3,7 @@ import {
   IonHeader,
   IonPage,
   IonTitle,
-  IonToolbar,
-  IonButton,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonTextarea,
+  IonToolbar
 } from "@ionic/react";
 
 import AuthModal from "components/auth/AuthModal";
