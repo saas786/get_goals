@@ -60,11 +60,6 @@ function UserList() {
     return Object.keys(friendData).map((key) => friendData[key]);
   }, [friendData]);
 
-  // const { data: friendData } = useDatabaseObjectData<UserCollection>(
-  //   ref(database, `users/` + userId + `/friends`),
-  //   { idField: "" }
-  // );
-
   const addFriend = (friendId: string, totalPoint: number) => () => {
     const id = friendId;
     get(child(dbRef, `users/` + userId + "/friends/" + friendId)).then(
@@ -100,43 +95,6 @@ function UserList() {
     setShowOtherUserModal(true);
   }
 
-  useEffect(() => {
-    if (checked) {
-      let userFriend = Object.keys(friendData);
-
-      if (userFriend) {
-        userFriend.map((index: any) => {
-          get(
-            child(
-              dbRef,
-              "users/" + userId + "/friends/" + index + "/totalPoint"
-            )
-          ).then((friendTotalPointSnapshot) => {
-            if (friendTotalPointSnapshot.exists()) {
-              get(child(dbRef, `users/` + index + "/profile/totalPoint")).then(
-                (userTotalPointSnapshot) => {
-                  if (userTotalPointSnapshot.exists()) {
-                    if (
-                      friendTotalPointSnapshot.val() !=
-                      userTotalPointSnapshot.val()
-                    ) {
-                      set(
-                        ref(database, `users/` + userId + `/friends/` + index),
-                        {
-                          totalPoint: userTotalPointSnapshot.val(),
-                        }
-                      );
-                    }
-                  }
-                }
-              );
-            }
-          });
-        });
-      }
-    }
-  }, []);
-
   return (
     <>
       <IonListHeader> Point Leaderboard </IonListHeader>
@@ -150,15 +108,6 @@ function UserList() {
 
         <IonButton onClick={showProfileModal}>Search</IonButton>
       </IonItem>
-
-      {/* <IonItem>
-        <IonLabel>Show Friends Only</IonLabel>
-        <IonToggle
-          checked={checked}
-          onIonChange={(e) => setChecked(e.detail.checked)}
-          color="primary"
-        ></IonToggle>
-      </IonItem> */}
 
       <IonSegment
         onIonChange={(e) => setFilter(e.detail.value as Filter)}
