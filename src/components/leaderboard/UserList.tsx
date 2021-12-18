@@ -8,8 +8,12 @@ import {
   IonList,
   IonListHeader,
   IonModal,
+  IonSegment,
+  IonSegmentButton,
   IonText,
+  IonTitle,
   IonToggle,
+  IonToolbar,
 } from "@ionic/react";
 import { AuthContext } from "components/providers/UserContext";
 import { presentToast } from "components/Toast";
@@ -23,7 +27,7 @@ import { useDatabaseObjectData } from "reactfire";
 function UserList() {
   const [userName, setUsername] = useState<string>("");
   const currentUserProfileRef = readUserRef(userName);
-  const currentUserFriend = readuserFriend(userName);
+  const [value, setValue] = useState("0");
   const [showOtherUserModal, setShowOtherUserModal] = useState(false);
   const [checked, setChecked] = useState(false);
 
@@ -82,31 +86,37 @@ function UserList() {
   useEffect(() => {
     if (checked) {
       let userFriend = Object.keys(friendData);
-      userFriend.map((index: any) => {
-        get(
-          child(dbRef, "users/" + userId + "/friends/" + index + "/totalPoint")
-        ).then((friendTotalPointSnapshot) => {
-          if (friendTotalPointSnapshot.exists()) {
-            get(child(dbRef, `users/` + index + "/profile/totalPoint")).then(
-              (userTotalPointSnapshot) => {
-                if (userTotalPointSnapshot.exists()) {
-                  if (
-                    friendTotalPointSnapshot.val() !=
-                    userTotalPointSnapshot.val()
-                  ) {
-                    set(
-                      ref(database, `users/` + userId + `/friends/` + index),
-                      {
-                        totalPoint: userTotalPointSnapshot.val(),
-                      }
-                    );
+
+      if (userFriend) {
+        userFriend.map((index: any) => {
+          get(
+            child(
+              dbRef,
+              "users/" + userId + "/friends/" + index + "/totalPoint"
+            )
+          ).then((friendTotalPointSnapshot) => {
+            if (friendTotalPointSnapshot.exists()) {
+              get(child(dbRef, `users/` + index + "/profile/totalPoint")).then(
+                (userTotalPointSnapshot) => {
+                  if (userTotalPointSnapshot.exists()) {
+                    if (
+                      friendTotalPointSnapshot.val() !=
+                      userTotalPointSnapshot.val()
+                    ) {
+                      set(
+                        ref(database, `users/` + userId + `/friends/` + index),
+                        {
+                          totalPoint: userTotalPointSnapshot.val(),
+                        }
+                      );
+                    }
                   }
                 }
-              }
-            );
-          }
+              );
+            }
+          });
         });
-      });
+      }
     }
   }, [checked]);
 
