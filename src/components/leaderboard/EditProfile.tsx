@@ -15,12 +15,10 @@ import {
 } from "@ionic/react";
 import { AuthContext } from "components/providers/UserContext";
 import { presentToast } from "components/Toast";
-import { UserCollection } from "components/types/profile";
 import { child, get, ref, set, update } from "firebase/database";
 import { database, dbRef } from "firebase/firebaseConfig";
 import { readUserRef } from "firebase/profileFunction";
 import { useContext, useState } from "react";
-import { useDatabaseObjectData } from "reactfire";
 
 function EditProfile() {
   const [showEditProfile, SetShowEditProfile] = useState(false);
@@ -32,11 +30,13 @@ function EditProfile() {
 
   const ChangeName = async () => {
     get(child(dbRef, `users/` + uid + `/profile/userName`)).then((snapshot) => {
-      if (snapshot.exists() && snapshot.val() !== name) {
+      if (snapshot.val() !== name && name) {
         update(ref(database), {
           ["/users/" + uid + "/profile/userName"]: name,
         });
         presentToast("Name Changed");
+      } else {
+        presentToast("uh oh?");
       }
       return SetShowEditProfile(false);
     });
@@ -55,8 +55,9 @@ function EditProfile() {
           <IonLabel>Change Name</IonLabel>
         </IonHeader>
         <IonItem>
-          <IonLabel position="floating">Name</IonLabel>
+          <IonLabel>Name</IonLabel>
           <IonInput
+            placeholder="Leave it blank for cancel"
             onIonChange={(e) => setName(e.detail.value!)}
             value={name}
           ></IonInput>
