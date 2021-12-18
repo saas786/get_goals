@@ -39,13 +39,15 @@ function UserList() {
   );
 
   const addFriend = (friendId: string) => () => {
+    const id = friendId
+    console.log(id);
     get(child(dbRef, `users/` + userId + "/friends/" + friendId)).then(
       (snapshot) => {
         if (snapshot.exists()) {
           console.log(snapshot.val);
         } else {
-          set(ref(database, `users/` + userId + `/friends`), {
-            friendId: 1,
+          set(ref(database, `users/` + userId + `/friends/`+ id), {
+            friend: 1
           });
         }
       }
@@ -94,7 +96,6 @@ function UserList() {
               <IonText>
                 <h3> {userProfileList[key].profile.userName} </h3>{" "}
                 <p>Total Point : {userProfileList[key].profile.totalPoint} </p>
-                <IonButton>TEST</IonButton>
               </IonText>
             </IonItem>
           ))}
