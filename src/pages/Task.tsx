@@ -19,7 +19,7 @@ const Task: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Main App</IonTitle>
+          <IonTitle>Quest</IonTitle>
         </IonToolbar>
       </IonHeader>
 

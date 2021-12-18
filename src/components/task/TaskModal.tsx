@@ -2,6 +2,7 @@ import {
   IonButton,
   IonContent,
   IonDatetime,
+  IonHeader,
   IonInput,
   IonItem,
   IonLabel,
@@ -49,9 +50,13 @@ export const TaskModal: React.FC = () => {
   }
 
   return (
-    <IonContent>    
+    <>    
       <IonModal isOpen={showTaskModal}>
-        <p> Create Task </p>
+        <IonHeader>
+          <p> Create Task </p>
+        </IonHeader>
+
+        <IonContent>
         <IonItem>
           <IonLabel position="floating">Task</IonLabel>
           <IonInput
@@ -86,11 +91,13 @@ export const TaskModal: React.FC = () => {
           <IonButton onClick={taskModalClick}>Create Task</IonButton>
           <IonButton onClick={() => setShowTaskModal(false)}>Close</IonButton>
         </IonItem>
+
+        </IonContent>
       </IonModal>
 
       <IonButton onClick={() => setShowTaskModal(true)}>Create Task</IonButton>
      
-    </IonContent>
+    </>
   );
 };
 

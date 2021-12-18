@@ -3,12 +3,7 @@ import {
   IonHeader,
   IonPage,
   IonTitle,
-  IonToolbar,
-  IonButton,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonTextarea,
+  IonToolbar
 } from "@ionic/react";
 
 import AuthModal from "components/auth/AuthModal";
@@ -19,7 +14,7 @@ const Auth: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Main App</IonTitle>
+          <IonTitle>Welcome!</IonTitle>
         </IonToolbar>
       </IonHeader>
 

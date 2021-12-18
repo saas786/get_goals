@@ -1,4 +1,4 @@
-import { child, get, getDatabase, ref, set } from "@firebase/database";
+import { child, get, getDatabase, ref, set } from "firebase/database";
 import { TaskEntry } from "components/types/task";
 import { firebase } from "./firebaseConfig";
 

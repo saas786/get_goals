@@ -64,7 +64,7 @@ function TaskCard() {
 
   const removeTask = (key: string) => () => {
     remove(ref(database, `users/` + uid + "/tasks/" + key));
-    
+
     presentToast("Task Removed");
   };
 
@@ -76,7 +76,7 @@ function TaskCard() {
   };
 
   return (
-    <IonContent>
+    <>
       {taskList &&
         Object.keys(taskList).map((key) => (
           <IonCard key={key}>
@@ -93,7 +93,7 @@ function TaskCard() {
             <IonButton onClick={completedTask(key)}>DONE</IonButton>
           </IonCard>
         ))}
-    </IonContent>
+    </>
   );
 }
 
