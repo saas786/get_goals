@@ -1,11 +1,6 @@
 import { Redirect, Route } from "react-router-dom";
-import {
-  IonApp,
-  IonRouterOutlet,
-} from "@ionic/react";
-import {
-  FirebaseAppProvider,
-} from "reactfire";
+import { IonApp, IonRouterOutlet } from "@ionic/react";
+import { FirebaseAppProvider } from "reactfire";
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
 import Auth from "pages/Auth";
@@ -33,6 +28,7 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import { firebaseConfig } from "firebase/firebaseConfig";
 import Leaderboard from "pages/Leaderboard";
+import FriendsLeaderboard from "pages/FriendsLeaderboard";
 
 const App: React.FC = () => (
   <FirebaseAppProvider firebaseConfig={firebaseConfig}>
@@ -54,6 +50,9 @@ const App: React.FC = () => (
             </Route>
             <Route exact path="/leaderboard">
               <Leaderboard />
+            </Route>
+            <Route exact path="/friendsleaderboard">
+              <FriendsLeaderboard />
             </Route>
           </IonRouterOutlet>
         </IonReactRouter>

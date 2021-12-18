@@ -1,0 +1,114 @@
+{
+    "users" : {
+      "2IXNjfPYx4VNkjK1e0MDhaNJFzj2" : {
+        "profile" : {
+          "currentPoint" : 900,
+          "totalPoint" : 2000,
+          "userEmail" : "majikan@gmail.com",
+          "userName" : "MAJIKAN",
+          "userUid" : "2IXNjfPYx4VNkjK1e0MDhaNJFzj2"
+        }
+      },
+      "873KPFzRPLSduSwlwz9DT7SpDsC2" : {
+        "profile" : {
+          "currentPoint" : 0,
+          "totalPoint" : 200,
+          "userEmail" : "dula@gmail.com",
+          "userName" : "DULAHAN",
+          "userUid" : "873KPFzRPLSduSwlwz9DT7SpDsC2"
+        }
+      },
+      "CZJTTjBF6fMwHVRlZHoUyMCHBj52" : {
+        "friends" : [
+            "mas roji-93T4",
+            "mas rojiam-1d3C"
+        ],     
+        "profile" : {
+          "currentPoint" : 40,
+          "totalPoint" : 30,
+          "userEmail" : "kecoangesot.ontangesot@gmail.com",
+          "userName" : "Aan",
+          "userUid" : "CZJTTjBF6fMwHVRlZHoUyMCHBj52"
+        }
+      },
+      "E22x2DVLDUg5CBUkUi5vRUIdy5I3" : {
+        "profile" : {
+          "currentPoint" : 0,
+          "totalPoint" : 0,
+          "userEmail" : "rumahan@gmail.com",
+          "userName" : "IbuRumah#9673",
+          "userUid" : "E22x2DVLDUg5CBUkUi5vRUIdy5I3"
+        }
+      },
+      "Pencuri Ikan-G0sL" : {
+        "profile" : {
+          "currentPoint" : 0,
+          "totalPoint" : 0,
+          "userEmail" : "kkkkkkkk@gmail.com",
+          "userName" : "Pencuri Ikan",
+          "userUid" : "xmOnlL2c0sZoRFIwAa871UBjrmJ2"
+        }
+      },
+      "abtfkjiaQSfk77yQi8PabUOs3BU2" : {
+        "profile" : {
+          "currentPoint" : 0,
+          "totalPoint" : 0,
+          "userEmail" : "GodGod@gmail.com",
+          "userName" : "Godzila",
+          "userUid" : "abtfkjiaQSfk77yQi8PabUOs3BU2"
+        }
+      },
+      "mas roji-93T4" : {
+        "profile" : {
+          "currentPoint" : 0,
+          "totalPoint" : 890,
+          "userEmail" : "roji99@gmail.com",
+          "userName" : "mas roji",
+          "userUid" : "mas roji-93T4"
+        }
+      },
+      "mas rojiam-1d3C" : {
+        "profile" : {
+          "currentPoint" : 0,
+          "totalPoint" : 2000,
+          "userEmail" : "roji229@gmail.com",
+          "userName" : "mas rojiam",
+          "userUid" : "mas rojiam-1d3C"
+        }
+      },
+      "mas rojiam-7IB7" : {
+        "profile" : {
+          "currentPoint" : 0,
+          "totalPoint" : 0,
+          "userEmail" : "roji9@gmail.com",
+          "userName" : "mas rojiam",
+          "userUid" : "mas rojiam-7IB7"
+        }
+      },
+      "mas rojiam-U6O1" : {
+        "profile" : {
+          "currentPoint" : 0,
+          "totalPoint" : 0,
+          "userEmail" : "roji0909@gmail.com",
+          "userName" : "mas rojiam",
+          "userUid" : "mas rojiam-U6O1"
+        }
+      },
+      "z8hCvkXf06gau7ky81k6YitTDOO2" : {
+        "profile" : {
+          "currentPoint" : 20,
+          "totalPoint" : 8020,
+          "userEmail" : "aan@gmail.com",
+          "userName" : "aan",
+          "userUid" : "z8hCvkXf06gau7ky81k6YitTDOO2"
+        },
+        "tasks" : {
+          "Nx-kCedFX4zNifdEBoVA1" : {
+            "category" : "Development",
+            "name" : "asd",
+            "time" : "2021-12-17T16:31:40.134+07:00"
+          }
+        }
+      }
+    }
+  }

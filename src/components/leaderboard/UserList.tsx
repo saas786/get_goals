@@ -17,17 +17,20 @@ import {
 } from "@ionic/react";
 import { AuthContext } from "components/providers/UserContext";
 import { presentToast } from "components/Toast";
-import { UserCollection } from "components/types/profile";
-import { child, get, ref, remove, set } from "firebase/database";
+import { User, UserCollection, UserFriendUid } from "components/types/profile";
+import { UserProfile } from "firebase/auth";
+import { child, get, push, ref, remove, set } from "firebase/database";
 import { database, dbRef } from "firebase/firebaseConfig";
 import { readuserFriend, readUserRef } from "firebase/profileFunction";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useDatabaseObjectData } from "reactfire";
+
+type Filter = "global" | "friends";
 
 function UserList() {
   const [userName, setUsername] = useState<string>("");
   const currentUserProfileRef = readUserRef(userName);
-  const [value, setValue] = useState("0");
+  const [filter, setFilter] = useState<Filter>("global");
   const [showOtherUserModal, setShowOtherUserModal] = useState(false);
   const [checked, setChecked] = useState(false);
 
@@ -35,7 +38,7 @@ function UserList() {
   const uid = currentUserUid.currentUser;
   const userId = uid;
 
-  const { data: userProfile } = useDatabaseObjectData<UserCollection>(
+  const { data: userProfile } = useDatabaseObjectData<UserProfile>(
     currentUserProfileRef,
     { idField: "" }
   );
@@ -45,10 +48,22 @@ function UserList() {
     { idField: "" }
   );
 
-  const { data: friendData } = useDatabaseObjectData<UserCollection>(
+  const { data: friendData } = useDatabaseObjectData<UserFriendUid>(
     ref(database, `users/` + userId + `/friends`),
     { idField: "" }
   );
+
+  const friendIds = useMemo(() => {
+    if (!friendData) {
+      return [];
+    }
+    return Object.keys(friendData).map((key) => friendData[key]);
+  }, [friendData]);
+
+  // const { data: friendData } = useDatabaseObjectData<UserCollection>(
+  //   ref(database, `users/` + userId + `/friends`),
+  //   { idField: "" }
+  // );
 
   const addFriend = (friendId: string, totalPoint: number) => () => {
     const id = friendId;
@@ -57,9 +72,7 @@ function UserList() {
         if (snapshot.exists()) {
           presentToast("Already following user");
         } else {
-          set(ref(database, `users/` + userId + `/friends/` + id), {
-            totalPoint: totalPoint,
-          });
+          push(child(ref(database, `users/` + userId), `friends`), id);
           presentToast("Yay, new friend!");
         }
       }
@@ -67,16 +80,20 @@ function UserList() {
   };
 
   const removeFriend = (friendId: string) => () => {
-    get(child(dbRef, `users/` + userId + "/friends/" + friendId)).then(
-      (snapshot) => {
-        if (snapshot.exists()) {
-          remove(ref(database, `users/` + userId + "/friends/" + friendId));
-          presentToast("Oh.. okay");
-        } else {
-          presentToast("Not In Your Friendlist");
-        }
+    get(child(dbRef, `users/` + userId + "/friends")).then((snapshot) => {
+      if (snapshot.exists()) {
+        snapshot.forEach((iterator) => {
+          if (iterator.val() == friendId) {
+            remove(
+              ref(database, `users/` + userId + "/friends/" + iterator.key)
+            );
+          }
+        });
+        presentToast("Oh.. okay");
+      } else {
+        presentToast("Not In Your Friendlist");
       }
-    );
+    });
   };
 
   async function showProfileModal() {
@@ -118,7 +135,7 @@ function UserList() {
         });
       }
     }
-  }, [checked]);
+  }, []);
 
   return (
     <>
@@ -130,20 +147,35 @@ function UserList() {
           value={userName}
           placeholder="Please Include the -"
         ></IonInput>
-        <IonButton onClick={showProfileModal}></IonButton>
+
+        <IonButton onClick={showProfileModal}>Search</IonButton>
       </IonItem>
 
-      <IonItem>
+      {/* <IonItem>
         <IonLabel>Show Friends Only</IonLabel>
         <IonToggle
           checked={checked}
           onIonChange={(e) => setChecked(e.detail.checked)}
           color="primary"
         ></IonToggle>
-      </IonItem>
+      </IonItem> */}
+
+      <IonSegment
+        onIonChange={(e) => setFilter(e.detail.value as Filter)}
+        value={filter}
+      >
+        <IonSegmentButton value="global">Global</IonSegmentButton>
+        <IonSegmentButton value="friends">Friends</IonSegmentButton>
+      </IonSegment>
 
       <IonList>
         {Object.keys(userProfileList ?? {})
+          ?.filter((key) => {
+            if (filter === "friends") {
+              return friendIds.includes(key);
+            }
+            return true;
+          })
           ?.sort(function (a, b) {
             return (
               userProfileList[b].profile.totalPoint -

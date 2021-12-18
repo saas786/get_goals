@@ -1,21 +1,28 @@
+export type User = {
+  profile: UserProfile;
+  friends: UserFriendUid;
+};
+
+// export type userFriendTotalPoint = {
+//   totalPoint: number;
+// };
+
 export type UserProfile = {
-  profile: {
-    userEmail: string;
-    userName: string;
-    userUid: string;
-    currentPoint: number;
-    totalPoint: number;
-  };
+  userEmail: string;
+  userName: string;
+  userUid: string;
+  currentPoint: number;
+  totalPoint: number;
+};
+
+export type UserFriendUid = {
+  [key: string]: string;
 };
 
 export type UserCollection = {
-  [uid: string]: UserProfile;
+  [uid: string]: User;
 };
 
-export type friendPoint = {
-  friends: {
-    [uid:string] : {
-      totalPoint: number
-    }
-  }
-}
+// export type FriendPoint = {
+//   friends: userFriendUid;
+// };
