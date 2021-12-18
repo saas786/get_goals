@@ -14,7 +14,7 @@ const Auth: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Main App</IonTitle>
+          <IonTitle>Welcome!</IonTitle>
         </IonToolbar>
       </IonHeader>
 

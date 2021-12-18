@@ -8,6 +8,7 @@ import {
 import { ref, set } from "firebase/database";
 import { presentToast } from "components/Toast";
 import { database } from "./firebaseConfig";
+import { nanoid } from "nanoid";
 
 export const auth = getAuth();
 
@@ -20,12 +21,13 @@ export const registerUser = async (
   await createUserWithEmailAndPassword(auth, userEmail, userPassword)
     .then((userCredential) => {
       const user = userCredential.user;
+      const userUid = name+ "-" + nanoid(4)
       if (user.email) {
         presentToast("Email " + user.email + " Sucessfully Registered");
       }
 
-      set(ref(database, "users/" + user.uid + "/profile/"), {
-        userUid: user.uid,
+      set(ref(database, "users/" + userUid + "/profile/"), {
+        userUid: userUid ,
         userName: name,
         userEmail: userEmail,
         currentPoint: 0,

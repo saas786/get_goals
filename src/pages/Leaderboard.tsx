@@ -7,7 +7,7 @@ const Leaderboard: React.FC = () => {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Main App</IonTitle>
+            <IonTitle>Leaderboard</IonTitle>
           </IonToolbar>
         </IonHeader>
   
