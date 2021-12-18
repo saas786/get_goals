@@ -9,20 +9,23 @@ import {
   IonListHeader,
   IonModal,
   IonText,
+  IonToggle,
 } from "@ionic/react";
 import { AuthContext } from "components/providers/UserContext";
 import { presentToast } from "components/Toast";
 import { UserCollection } from "components/types/profile";
 import { child, get, ref, remove, set } from "firebase/database";
 import { database, dbRef } from "firebase/firebaseConfig";
-import { readUserRef } from "firebase/profileFunction";
-import { useContext, useState } from "react";
+import { readuserFriend, readUserRef } from "firebase/profileFunction";
+import { useContext, useEffect, useState } from "react";
 import { useDatabaseObjectData } from "reactfire";
 
 function UserList() {
   const [userName, setUsername] = useState<string>("");
   const currentUserProfileRef = readUserRef(userName);
+  const currentUserFriend = readuserFriend(userName);
   const [showOtherUserModal, setShowOtherUserModal] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   const currentUserUid = useContext(AuthContext);
   const uid = currentUserUid.currentUser;
@@ -38,17 +41,22 @@ function UserList() {
     { idField: "" }
   );
 
-  const addFriend = (friendId: string) => () => {
-    const id = friendId
-    console.log(id);
+  const { data: friendData } = useDatabaseObjectData<UserCollection>(
+    ref(database, `users/` + userId + `/friends`),
+    { idField: "" }
+  );
+
+  const addFriend = (friendId: string, totalPoint: number) => () => {
+    const id = friendId;
     get(child(dbRef, `users/` + userId + "/friends/" + friendId)).then(
       (snapshot) => {
         if (snapshot.exists()) {
-          console.log(snapshot.val);
+          presentToast("Already following user");
         } else {
-          set(ref(database, `users/` + userId + `/friends/`+ id), {
-            friend: 1
+          set(ref(database, `users/` + userId + `/friends/` + id), {
+            totalPoint: totalPoint,
           });
+          presentToast("Yay, new friend!");
         }
       }
     );
@@ -59,6 +67,7 @@ function UserList() {
       (snapshot) => {
         if (snapshot.exists()) {
           remove(ref(database, `users/` + userId + "/friends/" + friendId));
+          presentToast("Oh.. okay");
         } else {
           presentToast("Not In Your Friendlist");
         }
@@ -69,6 +78,37 @@ function UserList() {
   async function showProfileModal() {
     setShowOtherUserModal(true);
   }
+
+  useEffect(() => {
+    if (checked) {
+      let userFriend = Object.keys(friendData);
+      userFriend.map((index: any) => {
+        get(
+          child(dbRef, "users/" + userId + "/friends/" + index + "/totalPoint")
+        ).then((friendTotalPointSnapshot) => {
+          if (friendTotalPointSnapshot.exists()) {
+            get(child(dbRef, `users/` + index + "/profile/totalPoint")).then(
+              (userTotalPointSnapshot) => {
+                if (userTotalPointSnapshot.exists()) {
+                  if (
+                    friendTotalPointSnapshot.val() !=
+                    userTotalPointSnapshot.val()
+                  ) {
+                    set(
+                      ref(database, `users/` + userId + `/friends/` + index),
+                      {
+                        totalPoint: userTotalPointSnapshot.val(),
+                      }
+                    );
+                  }
+                }
+              }
+            );
+          }
+        });
+      });
+    }
+  }, [checked]);
 
   return (
     <>
@@ -81,6 +121,15 @@ function UserList() {
           placeholder="Please Include the -"
         ></IonInput>
         <IonButton onClick={showProfileModal}></IonButton>
+      </IonItem>
+
+      <IonItem>
+        <IonLabel>Show Friends Only</IonLabel>
+        <IonToggle
+          checked={checked}
+          onIonChange={(e) => setChecked(e.detail.checked)}
+          color="primary"
+        ></IonToggle>
       </IonItem>
 
       <IonList>
@@ -102,47 +151,52 @@ function UserList() {
       </IonList>
 
       {userProfile &&
-          [Object.keys(userProfile)[0]].map((key) => (
-            <IonModal isOpen={showOtherUserModal}>
-              <IonHeader>
-                <p>User Profile</p>
-              </IonHeader>
+        [Object.keys(userProfile)[0]].map((key) => (
+          <IonModal isOpen={showOtherUserModal}>
+            <IonHeader>
+              <p>User Profile</p>
+            </IonHeader>
 
-              <IonContent>
-                <IonItem>
-                  <IonLabel position="floating">Name</IonLabel>
-                  <IonInput
-                    readonly
-                    value={String(userProfile.userName)}
-                  ></IonInput>
-                </IonItem>
-                <IonItem>
-                  <IonLabel position="floating">Email</IonLabel>
-                  <IonInput
-                    readonly
-                    value={String(userProfile.userEmail)}
-                  ></IonInput>
-                </IonItem>
-                <IonItem>
-                  <IonLabel position="floating">totalPoint</IonLabel>
-                  <IonInput
-                    readonly
-                    value={String(userProfile.totalPoint)}
-                  ></IonInput>
-                </IonItem>
-              </IonContent>
+            <IonContent>
+              <IonItem>
+                <IonLabel position="floating">Name</IonLabel>
+                <IonInput
+                  readonly
+                  value={String(userProfile.userName)}
+                ></IonInput>
+              </IonItem>
+              <IonItem>
+                <IonLabel position="floating">Email</IonLabel>
+                <IonInput
+                  readonly
+                  value={String(userProfile.userEmail)}
+                ></IonInput>
+              </IonItem>
+              <IonItem>
+                <IonLabel position="floating">totalPoint</IonLabel>
+                <IonInput
+                  readonly
+                  value={String(userProfile.totalPoint)}
+                ></IonInput>
+              </IonItem>
+            </IonContent>
 
-              <IonButton onClick={addFriend(String(userProfile.userUid))}>
-                Add Friend
-              </IonButton>
-              <IonButton onClick={removeFriend(String(userProfile.userUid))}>
-                Remove Friend
-              </IonButton>
-              <IonButton onClick={() => setShowOtherUserModal(false)}>
-                Close
-              </IonButton>
-            </IonModal>
-          ))}
+            <IonButton
+              onClick={addFriend(
+                String(userProfile.userUid),
+                Number(userProfile.totalPoint)
+              )}
+            >
+              Add Friend
+            </IonButton>
+            <IonButton onClick={removeFriend(String(userProfile.userUid))}>
+              Remove Friend
+            </IonButton>
+            <IonButton onClick={() => setShowOtherUserModal(false)}>
+              Close
+            </IonButton>
+          </IonModal>
+        ))}
     </>
   );
 }

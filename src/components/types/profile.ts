@@ -11,3 +11,11 @@ export type UserProfile = {
 export type UserCollection = {
   [uid: string]: UserProfile;
 };
+
+export type friendPoint = {
+  friends: {
+    [uid:string] : {
+      totalPoint: number
+    }
+  }
+}
