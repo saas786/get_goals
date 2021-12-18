@@ -1,4 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import EditProfile from "components/leaderboard/EditProfile";
 import ProfileCard from "components/leaderboard/ProfileCard";
 import UserList from "components/leaderboard/UserList"
 
@@ -13,6 +14,7 @@ const Leaderboard: React.FC = () => {
   
         <IonContent>
           <ProfileCard />
+          <EditProfile />
           <UserList />
         </IonContent>
         

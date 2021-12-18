@@ -4,11 +4,12 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonContent,
+  IonModal,
 } from "@ionic/react";
 import { AuthContext } from "components/providers/UserContext";
 import { UserCollection } from "components/types/profile";
 import { readUserRef } from "firebase/profileFunction";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useDatabaseObjectData } from "reactfire";
 
 function ProfileCard() {
@@ -36,7 +37,7 @@ function ProfileCard() {
                 {" "}
                 Current Point : {userProfile.currentPoint}{" "}
               </IonCardSubtitle>
-              
+
               <IonCardSubtitle>
                 {" "}
                 Total Point : {userProfile.totalPoint}{" "}
@@ -44,6 +45,7 @@ function ProfileCard() {
             </IonCardHeader>
           </IonCard>
         ))}
+        
     </>
   );
 }
