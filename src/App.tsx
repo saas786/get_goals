@@ -29,6 +29,7 @@ import "./theme/variables.css";
 import { firebaseConfig } from "firebase/firebaseConfig";
 import Leaderboard from "pages/Leaderboard";
 import FriendsLeaderboard from "pages/FriendsLeaderboard";
+import Shop from "pages/Shop";
 
 const App: React.FC = () => (
   <FirebaseAppProvider firebaseConfig={firebaseConfig}>
@@ -51,8 +52,8 @@ const App: React.FC = () => (
             <Route exact path="/leaderboard">
               <Leaderboard />
             </Route>
-            <Route exact path="/friendsleaderboard">
-              <FriendsLeaderboard />
+            <Route exact path="/shop">
+              <Shop />
             </Route>
           </IonRouterOutlet>
         </IonReactRouter>

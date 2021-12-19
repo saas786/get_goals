@@ -21,17 +21,19 @@ export const registerUser = async (
   await createUserWithEmailAndPassword(auth, userEmail, userPassword)
     .then((userCredential) => {
       const user = userCredential.user;
-      const userUid = name+ "-" + nanoid(4)
+      const userUid = name + "-" + nanoid(4);
       if (user.email) {
         presentToast("Email " + user.email + " Sucessfully Registered");
       }
 
       set(ref(database, "users/" + userUid + "/profile/"), {
-        userUid: userUid ,
+        userUid: userUid,
         userName: name,
         userEmail: userEmail,
+        achievment: "",
+        clearedTask: 0,
         currentPoint: 0,
-        totalPoint: 0
+        totalPoint: 0,
       });
     })
     .catch((error) => {

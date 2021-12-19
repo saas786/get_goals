@@ -17,7 +17,6 @@ import { AuthContext } from "components/providers/UserContext";
 import { presentToast } from "components/Toast";
 import { child, get, ref, set, update } from "firebase/database";
 import { database, dbRef } from "firebase/firebaseConfig";
-import { readUserRef } from "firebase/profileFunction";
 import { useContext, useState } from "react";
 
 function EditProfile() {
@@ -26,7 +25,6 @@ function EditProfile() {
   const [name, setName] = useState<string>("");
   const currentUserUid = useContext(AuthContext);
   const uid = currentUserUid.currentUser;
-  const currentUserProfileRef = readUserRef(String(uid));
 
   const ChangeName = async () => {
     get(child(dbRef, `users/` + uid + `/profile/userName`)).then((snapshot) => {

@@ -32,7 +32,6 @@ function UserList() {
   const currentUserProfileRef = readUserRef(userName);
   const [filter, setFilter] = useState<Filter>("global");
   const [showOtherUserModal, setShowOtherUserModal] = useState(false);
-  const [checked, setChecked] = useState(false);
 
   const currentUserUid = useContext(AuthContext);
   const uid = currentUserUid.currentUser;
