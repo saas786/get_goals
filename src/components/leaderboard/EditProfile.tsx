@@ -25,7 +25,7 @@ import { AuthContext } from "components/providers/UserContext";
 import { presentToast } from "components/Toast";
 import { UserAchievement } from "components/types/profile";
 import { Shop } from "components/types/shop";
-import { child, get, ref, set, update } from "firebase/database";
+import { child, get, push, ref, set, update } from "firebase/database";
 import { database, dbRef } from "firebase/firebaseConfig";
 import { readShopItemRef } from "firebase/itemFunction";
 import { useContext, useMemo, useState } from "react";
@@ -54,6 +54,10 @@ function EditProfile() {
         });
         presentToast("Name Changed");
       } else {
+        push(
+          child(ref(database, `users/` + uid), `achievements`),
+          "Cancel the change"
+        );
         presentToast("uh oh?");
       }
       return SetShowEditProfile(false);
@@ -69,6 +73,8 @@ function EditProfile() {
       update(ref(database), {
         ["/users/" + uid + "/profile/achievement"]: achievement,
       });
+
+      return SetshowEditArchievment(false)
     }
   };
 
@@ -100,7 +106,9 @@ function EditProfile() {
           <IonButton expand="block" onClick={ChangeName}>
             EDIT!
           </IonButton>
-          <IonButton expand="block">Cancel</IonButton>
+          <IonButton onClick={() => SetShowEditProfile(false)} expand="block">
+            Cancel
+          </IonButton>
         </IonItem>
       </IonModal>
 
@@ -120,10 +128,12 @@ function EditProfile() {
               ))}
           </IonSelect>
         </IonItem>
-        <IonButton onClick={ChangeAchievement}>Set Title</IonButton>
-        <IonButton onClick={() => SetshowEditArchievment(false)}>
-          Cancel
-        </IonButton>
+        <IonItem>
+          <IonButton onClick={ChangeAchievement}>Set Title</IonButton>
+          <IonButton onClick={() => SetshowEditArchievment(false)}>
+            Cancel
+          </IonButton>
+        </IonItem>
       </IonModal>
     </>
   );

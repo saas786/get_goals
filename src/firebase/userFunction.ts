@@ -30,7 +30,7 @@ export const registerUser = async (
         userUid: userUid,
         userName: name,
         userEmail: userEmail,
-        achievment: "Newbie",
+        achievement: "Newbie",
         clearedTask: 0,
         currentPoint: 0,
         totalPoint: 0,

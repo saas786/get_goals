@@ -91,7 +91,6 @@ function TaskCard() {
   };
 
   const easterEggAchievement = () => {
-    console.log("DUAR KEMEM")
     // SET UP EASTER EGG ACHIEVEMENT
     get(child(dbRef, `users/${uid}/profile/clearedTask`)).then((snapshot) => {
       if (snapshot.exists()) {
