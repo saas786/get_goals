@@ -32,7 +32,6 @@ function UserList() {
   const currentUserProfileRef = readUserRef(userName);
   const [filter, setFilter] = useState<Filter>("global");
   const [showOtherUserModal, setShowOtherUserModal] = useState(false);
-  const [checked, setChecked] = useState(false);
 
   const currentUserUid = useContext(AuthContext);
   const uid = currentUserUid.currentUser;
@@ -103,7 +102,7 @@ function UserList() {
         <IonInput
           onIonChange={(e) => setUsername(e.detail.value!)}
           value={userName}
-          placeholder="Please Include the -"
+          placeholder="Paste Friend Code Here"
         ></IonInput>
 
         <IonButton onClick={showProfileModal}>Search</IonButton>
@@ -119,6 +118,7 @@ function UserList() {
 
       <IonList>
         {Object.keys(userProfileList ?? {})
+
           ?.filter((key) => {
             if (filter === "friends") {
               return friendIds.includes(key);
@@ -135,6 +135,7 @@ function UserList() {
             <IonItem key={key}>
               <IonText>
                 <h3> {userProfileList[key].profile.userName} </h3>{" "}
+                <p>Title : {userProfileList[key].profile.achievement} </p>
                 <p>Total Point : {userProfileList[key].profile.totalPoint} </p>
               </IonText>
             </IonItem>
@@ -142,7 +143,9 @@ function UserList() {
       </IonList>
 
       {userProfile &&
-        [Object.keys(userProfile)[0]].map((key) => (
+        [Object.keys(userProfile)[0]]
+        
+        ?.map((key) => (
           <IonModal isOpen={showOtherUserModal}>
             <IonHeader>
               <p>User Profile</p>
