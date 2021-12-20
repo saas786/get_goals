@@ -102,7 +102,7 @@ function UserList() {
         <IonInput
           onIonChange={(e) => setUsername(e.detail.value!)}
           value={userName}
-          placeholder="Please Include the -"
+          placeholder="Paste Friend Code Here"
         ></IonInput>
 
         <IonButton onClick={showProfileModal}>Search</IonButton>
@@ -118,11 +118,10 @@ function UserList() {
 
       <IonList>
         {Object.keys(userProfileList ?? {})
-          
+
           ?.filter((key) => {
             if (filter === "friends") {
               return friendIds.includes(key);
-              
             }
             return true;
           })
@@ -144,7 +143,9 @@ function UserList() {
       </IonList>
 
       {userProfile &&
-        [Object.keys(userProfile)[0]].map((key) => (
+        [Object.keys(userProfile)[0]]
+        
+        ?.map((key) => (
           <IonModal isOpen={showOtherUserModal}>
             <IonHeader>
               <p>User Profile</p>

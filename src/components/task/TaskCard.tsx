@@ -16,6 +16,7 @@ import { remove, update } from "@firebase/database";
 import { database, dbRef } from "firebase/firebaseConfig";
 import { child, get, push, ref } from "firebase/database";
 import { presentToast } from "components/Toast";
+import { UserAchievement } from "components/types/profile";
 
 function TaskCard() {
   const currentUserUid = useContext(AuthContext);
@@ -27,6 +28,11 @@ function TaskCard() {
     {
       idField: "",
     }
+  );
+
+  const { data: userAchievementData } = useDatabaseObjectData<UserAchievement>(
+    ref(database, `users/` + uid + `/achievements`),
+    { idField: "" }
   );
 
   const setUserPoint = () => {
@@ -79,11 +85,14 @@ function TaskCard() {
   const completedTask = (key: string) => () => {
     remove(ref(database, `users/` + uid + "/tasks/" + key));
     setUserPoint();
+    easterEggAchievement();
 
     presentToast("Task Completed!");
   };
 
-  useEffect(() => {
+  const easterEggAchievement = () => {
+    console.log("DUAR KEMEM")
+    // SET UP EASTER EGG ACHIEVEMENT
     get(child(dbRef, `users/${uid}/profile/clearedTask`)).then((snapshot) => {
       if (snapshot.exists()) {
         if (snapshot.val() === 1) {
@@ -104,7 +113,29 @@ function TaskCard() {
         }
       }
     });
-  }, [taskList]);
+
+    // SET UP EASTER EGG ACHIEVEMENT
+    get(child(dbRef, `users/${uid}/profile/totalPoint`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        if (snapshot.val() === 50) {
+          push(
+            child(ref(database, `users/` + uid), `achievements`),
+            "I have collected 50 points guys!"
+          );
+        } else if (snapshot.val() === 200) {
+          push(
+            child(ref(database, `users/` + uid), `achievements`),
+            "This is fun"
+          );
+        } else if (snapshot.val() === 1000) {
+          push(
+            child(ref(database, `users/` + uid), `achievements`),
+            "1000 points reached, lol."
+          );
+        }
+      }
+    });
+  };
 
   return (
     <>

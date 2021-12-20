@@ -21,7 +21,7 @@ export const registerUser = async (
   await createUserWithEmailAndPassword(auth, userEmail, userPassword)
     .then((userCredential) => {
       const user = userCredential.user;
-      const userUid = name + "-" + nanoid(4);
+      const userUid = user.uid;
       if (user.email) {
         presentToast("Email " + user.email + " Sucessfully Registered");
       }
@@ -30,7 +30,7 @@ export const registerUser = async (
         userUid: userUid,
         userName: name,
         userEmail: userEmail,
-        achievment: "",
+        achievment: "Newbie",
         clearedTask: 0,
         currentPoint: 0,
         totalPoint: 0,

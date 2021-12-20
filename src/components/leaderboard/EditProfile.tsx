@@ -30,6 +30,7 @@ import { database, dbRef } from "firebase/firebaseConfig";
 import { readShopItemRef } from "firebase/itemFunction";
 import { useContext, useMemo, useState } from "react";
 import { useDatabaseObjectData } from "reactfire";
+import CopyToClipboard from "react-copy-to-clipboard";
 
 function EditProfile() {
   const [showEditProfile, SetShowEditProfile] = useState(false);
@@ -79,6 +80,9 @@ function EditProfile() {
         CHANGE ARCHIEVMENT
       </IonButton>
       <IonButton onClick={logoutClick}>Log Out</IonButton>
+      <CopyToClipboard text={String(uid)}>
+        <IonButton>Get Code</IonButton>
+      </CopyToClipboard>
 
       <IonModal isOpen={showEditProfile}>
         <IonHeader>
