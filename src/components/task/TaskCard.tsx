@@ -7,14 +7,14 @@ import {
   IonButton,
 } from "@ionic/react";
 import { AuthContext } from "components/providers/UserContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { readTaskRef } from "firebase/taskFunction";
 import { useDatabaseObjectData } from "reactfire";
 import { dateFormat } from "utils/dateFormat";
 import { TaskCollection } from "components/types/task";
 import { remove, update } from "@firebase/database";
 import { database, dbRef } from "firebase/firebaseConfig";
-import { child, get, ref } from "firebase/database";
+import { child, get, push, ref } from "firebase/database";
 import { presentToast } from "components/Toast";
 
 function TaskCard() {
@@ -60,6 +60,14 @@ function TaskCard() {
         });
       }
     });
+
+    get(child(dbRef, `users/${uid}/profile/clearedTask`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        update(ref(database), {
+          ["/users/" + uid + "/profile/clearedTask"]: snapshot.val() + 1,
+        });
+      }
+    });
   };
 
   const removeTask = (key: string) => () => {
@@ -74,6 +82,29 @@ function TaskCard() {
 
     presentToast("Task Completed!");
   };
+
+  useEffect(() => {
+    get(child(dbRef, `users/${uid}/profile/clearedTask`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        if (snapshot.val() === 1) {
+          push(
+            child(ref(database, `users/` + uid), `achievements`),
+            "I have done my 1st task!"
+          );
+        } else if (snapshot.val() === 10) {
+          push(
+            child(ref(database, `users/` + uid), `achievements`),
+            "I Think im getting used to it!"
+          );
+        } else if (snapshot.val() === 30) {
+          push(
+            child(ref(database, `users/` + uid), `achievements`),
+            "No One Can Stop Me!"
+          );
+        }
+      }
+    });
+  }, [taskList]);
 
   return (
     <>

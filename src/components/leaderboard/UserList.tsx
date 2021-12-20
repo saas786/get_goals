@@ -118,9 +118,11 @@ function UserList() {
 
       <IonList>
         {Object.keys(userProfileList ?? {})
+          
           ?.filter((key) => {
             if (filter === "friends") {
               return friendIds.includes(key);
+              
             }
             return true;
           })
@@ -134,6 +136,7 @@ function UserList() {
             <IonItem key={key}>
               <IonText>
                 <h3> {userProfileList[key].profile.userName} </h3>{" "}
+                <p>Title : {userProfileList[key].profile.achievement} </p>
                 <p>Total Point : {userProfileList[key].profile.totalPoint} </p>
               </IonText>
             </IonItem>

@@ -31,6 +31,10 @@ function ProfileCard() {
               <IonCardTitle> {userProfile.userName} </IonCardTitle>
               <IonCardSubtitle>
                 {" "}
+                {userProfile.achievement}{" "}
+              </IonCardSubtitle>
+              <IonCardSubtitle>
+                {" "}
                 User Id : {userProfile.userUid}{" "}
               </IonCardSubtitle>
               <IonCardSubtitle>
